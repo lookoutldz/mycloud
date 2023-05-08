@@ -1,6 +1,7 @@
-package org.looko.mycloud.user.entity;
+package org.looko.mycloud.commonstarter.entity;
 
-import org.looko.mycloud.user.enumeration.ResponseStatusEnum;
+
+import org.looko.mycloud.commonstarter.entity.enumeration.ResponseStatusEnum;
 
 import java.io.Serializable;
 import java.util.Map;

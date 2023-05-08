@@ -3,7 +3,7 @@ package org.looko.mycloud.user.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.looko.mycloud.user.entity.ResponseEntity;
+import org.looko.mycloud.commonstarter.entity.ResponseEntity;
 import org.looko.mycloud.user.service.AuthorizationService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,8 +24,9 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import static org.looko.mycloud.user.enumeration.ResponseStatusEnum.AUTH_FAILED;
-import static org.looko.mycloud.user.enumeration.ResponseStatusEnum.FORBIDDEN;
+import static org.looko.mycloud.commonstarter.entity.enumeration.ResponseStatusEnum.AUTH_FAILED;
+import static org.looko.mycloud.commonstarter.entity.enumeration.ResponseStatusEnum.FORBIDDEN;
+
 
 @Configuration
 public class SecurityConfiguration {

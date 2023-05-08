@@ -1,4 +1,4 @@
-package org.looko.mycloud.user.enumeration;
+package org.looko.mycloud.commonstarter.entity.enumeration;
 
 public enum ResponseStatusEnum {
     OK(200, "ok"),

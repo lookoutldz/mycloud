@@ -2,9 +2,9 @@ package org.looko.mycloud.user.controller;
 
 import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
+import org.looko.mycloud.commonstarter.entity.ResponseEntity;
 import org.looko.mycloud.user.component.EmailManager;
 import org.looko.mycloud.user.domain.User;
-import org.looko.mycloud.user.entity.ResponseEntity;
 import org.looko.mycloud.user.service.TbValidcodeService;
 import org.looko.mycloud.user.service.UserService;
 import org.springframework.web.bind.annotation.*;

@@ -1,0 +1,7 @@
+{
+  "properties": [{
+    "name": "mycloud.common.enable",
+    "type": "java.lang.Boolean",
+    "description": "启用 common module"
+  }]
+}

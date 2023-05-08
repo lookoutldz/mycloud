@@ -5,10 +5,10 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.looko.mycloud.user.entity.ResponseEntity;
+import org.looko.mycloud.commonstarter.entity.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import static org.looko.mycloud.user.enumeration.ResponseStatusEnum.BUSINESS_ERROR;
+import static org.looko.mycloud.commonstarter.entity.enumeration.ResponseStatusEnum.BUSINESS_ERROR;
 
 @Slf4j
 @Aspect
