@@ -10,7 +10,7 @@
     </parent>
     <groupId>org.looko.mycloud</groupId>
     <artifactId>common-starter</artifactId>
-    <version>0.0.14-SNAPSHOT</version>
+    <version>0.0.17-SNAPSHOT</version>
     <name>common-starter</name>
     <description>common-starter</description>
     <properties>
@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <artifactId>spring-boot-starter-aop</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>org.yaml</groupId>

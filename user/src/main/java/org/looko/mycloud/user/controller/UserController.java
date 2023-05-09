@@ -1,6 +1,7 @@
 package org.looko.mycloud.user.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.looko.mycloud.commonstarter.entity.ResponseEntity;
 import org.looko.mycloud.user.domain.User;
 import org.looko.mycloud.user.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -19,14 +20,16 @@ public class UserController {
     }
 
     @GetMapping("/id/{id}")
-    public Object getById(@PathVariable String id) {
-        return userService.getById(id);
+    public ResponseEntity<User> getById(@PathVariable String id) {
+        User user = userService.getById(id);
+        return ResponseEntity.success(user);
     }
 
     @GetMapping("/all")
-    public Object getAll(@RequestParam int pageSize, @RequestParam int pageIndex) {
+    public ResponseEntity<Map<String, Object>> getAll(@RequestParam int pageSize, @RequestParam int pageIndex) {
         Page<User> page = new Page<>(pageIndex, pageSize);
         List<User> users =  userService.listAll(page);
-        return Map.of("result", users, "pagination", page);
+        Map<String, Object> res = Map.of("result", users, "pagination", page);
+        return ResponseEntity.success(res);
     }
 }

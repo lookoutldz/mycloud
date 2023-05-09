@@ -3,8 +3,9 @@ package org.looko.mycloud.user;
 import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.looko.mycloud.commonstarter.component.CommonDemo;
+import org.looko.mycloud.commonstarter.component.CommonPropertyCheck;
 import org.looko.mycloud.user.component.EmailManager;
+import org.looko.mycloud.user.controller.UserController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,10 +32,11 @@ class UserApplicationTests {
     }
 
     @Autowired
-    CommonDemo commonDemo;
+    UserController userController;
     @Test
     void testCommon() {
-        commonDemo.showMessage();
+        Object obj = userController.getById("1");
+        System.out.println(obj);
     }
 
 }

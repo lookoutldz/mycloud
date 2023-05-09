@@ -46,4 +46,19 @@ public class ResponseEntity<T> implements Serializable {
     public static <T> ResponseEntity<T> failure(ResponseStatusEnum responseStatusEnum, T data) {
         return new ResponseEntity<>(responseStatusEnum, Map.of(RESULT_KEY, data));
     }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder
+                .append("ResponseEntity{statusCode=").append(responseStatusEnum.getCode())
+                .append(",statusMessage=").append(responseStatusEnum.getMsg())
+                .append(",resultMap={");
+        for (Map.Entry<String, Object> entry : resultMap.entrySet()) {
+            stringBuilder.append(entry.getKey()).append("=").append(entry.getValue().toString()).append(",");
+        }
+        stringBuilder.deleteCharAt(stringBuilder.lastIndexOf(","));
+        stringBuilder.append("}}");
+        return  stringBuilder.toString();
+    }
 }

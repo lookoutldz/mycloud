@@ -6,5 +6,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 @ConfigurationProperties(prefix = "mycloud.common")
 public class CommonProperties {
-    private Boolean enable;
+    private ControllerSubProperty controller;
 }

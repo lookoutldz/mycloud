@@ -1,7 +1,7 @@
 {
   "properties": [{
-    "name": "mycloud.common.enable",
+    "name": "mycloud.common.controller.globalResponseWrapping",
     "type": "java.lang.Boolean",
-    "description": "启用 common module"
+    "description": "全局 Controller 启用统一返回实体 ResponseEntity<T>"
   }]
 }
