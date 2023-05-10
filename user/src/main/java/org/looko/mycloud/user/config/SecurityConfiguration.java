@@ -24,8 +24,8 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import static org.looko.mycloud.commonstarter.entity.enumeration.ResponseStatusEnum.AUTH_FAILED;
-import static org.looko.mycloud.commonstarter.entity.enumeration.ResponseStatusEnum.FORBIDDEN;
+import static org.looko.mycloud.commonstarter.enumeration.ResponseStatusEnum.AUTH_FAILED;
+import static org.looko.mycloud.commonstarter.enumeration.ResponseStatusEnum.FORBIDDEN;
 
 
 @Configuration

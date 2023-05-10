@@ -7,7 +7,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.looko.mycloud.commonstarter.entity.ResponseEntity;
 
-import static org.looko.mycloud.commonstarter.entity.enumeration.ResponseStatusEnum.BUSINESS_ERROR;
+import static org.looko.mycloud.commonstarter.enumeration.ResponseStatusEnum.BUSINESS_ERROR;
 
 @Slf4j
 @Aspect

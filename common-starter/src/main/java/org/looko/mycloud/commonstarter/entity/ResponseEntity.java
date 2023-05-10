@@ -1,7 +1,7 @@
 package org.looko.mycloud.commonstarter.entity;
 
 
-import org.looko.mycloud.commonstarter.entity.enumeration.ResponseStatusEnum;
+import org.looko.mycloud.commonstarter.enumeration.ResponseStatusEnum;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -24,7 +24,7 @@ public class ResponseEntity<T> implements Serializable {
     }
 
     public String getStatusMessage() {
-        return responseStatusEnum.getMsg();
+        return responseStatusEnum.getMessage();
     }
 
     public Map<String, Object> getResultMap() {
@@ -32,7 +32,7 @@ public class ResponseEntity<T> implements Serializable {
     }
 
     public static <T> ResponseEntity<T> success(T data) {
-        return new ResponseEntity<>(ResponseStatusEnum.OK, Map.of(RESULT_KEY, data));
+        return new ResponseEntity<>(ResponseStatusEnum.SUCCESS, Map.of(RESULT_KEY, data));
     }
 
     public static <T> ResponseEntity<T> failure() {
@@ -52,7 +52,7 @@ public class ResponseEntity<T> implements Serializable {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder
                 .append("ResponseEntity{statusCode=").append(responseStatusEnum.getCode())
-                .append(",statusMessage=").append(responseStatusEnum.getMsg())
+                .append(",statusMessage=").append(responseStatusEnum.getMessage())
                 .append(",resultMap={");
         for (Map.Entry<String, Object> entry : resultMap.entrySet()) {
             stringBuilder.append(entry.getKey()).append("=").append(entry.getValue().toString()).append(",");
