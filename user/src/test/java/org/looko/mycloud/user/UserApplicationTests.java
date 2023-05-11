@@ -3,13 +3,14 @@ package org.looko.mycloud.user;
 import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.looko.mycloud.user.component.EmailManager;
+import org.looko.mycloud.emailstarter.component.EmailManager;
 import org.looko.mycloud.user.controller.UserController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Collections;
 
 @SpringBootTest
 class UserApplicationTests {
@@ -26,8 +27,8 @@ class UserApplicationTests {
 
     @Disabled
     @Test
-    void testEmail() throws MessagingException, UnsupportedEncodingException {
-        emailManager.sendEmail("test", "hello", "abc@qq.com");
+    void testEmail() {
+        emailManager.sendEmail("test", "hello", Collections.singleton("1293242721@qq.com"));
     }
 
     @Autowired

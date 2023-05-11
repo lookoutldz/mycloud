@@ -35,15 +35,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.google.code.gson</groupId>-->
-<!--            <artifactId>gson</artifactId>-->
-<!--        </dependency>-->
-<!--        &lt;!&ndash; https://mvnrepository.com/artifact/jakarta.mail/jakarta.mail-api &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>jakarta.mail</groupId>-->
-<!--            <artifactId>jakarta.mail-api</artifactId>-->
-<!--        </dependency>-->
+
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>jakarta.mail</artifactId>
@@ -54,6 +46,11 @@
             <groupId>org.looko.mycloud</groupId>
             <artifactId>common-starter</artifactId>
             <version>0.0.18-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.looko.mycloud</groupId>
+            <artifactId>email-starter</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>

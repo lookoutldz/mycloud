@@ -1,0 +1,21 @@
+{
+  "properties": [{
+    "name": "mycloud.email.config",
+    "type": "java.util.List<org.looko.mycloud.emailstarter.entity.EmailConfigEntity>",
+    "description": "邮件服务",
+    "hints": {
+      "valueHints": {
+        "description": "EmailConfigEntity 配置",
+        "host": {
+          "description": "邮件服务器(SMTP)"
+        },
+        "senderEmail": {
+          "description": "发件邮箱地址"
+        },
+        "senderPassword": {
+          "description": "发件邮箱密码/授权码"
+        }
+      }
+    }
+  }]
+}

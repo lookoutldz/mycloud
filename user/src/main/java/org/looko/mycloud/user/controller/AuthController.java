@@ -1,15 +1,14 @@
 package org.looko.mycloud.user.controller;
 
-import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.looko.mycloud.commonstarter.entity.ResponseEntity;
-import org.looko.mycloud.user.component.EmailManager;
+import org.looko.mycloud.emailstarter.component.EmailManager;
 import org.looko.mycloud.user.domain.User;
 import org.looko.mycloud.user.service.TbValidcodeService;
 import org.looko.mycloud.user.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.UnsupportedEncodingException;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Random;
 
@@ -35,13 +34,9 @@ public class AuthController {
         int randomNumber = new Random().nextInt(9999 - 1000 + 1) + 1000;
         String subject = "MyCloud";
         String content = "您正在注册 MyCloud, 验证码为：" + randomNumber + ", 5分钟内有效\n";
-        try {
-            tbValidcodeService.insertOrUpdate(email, String.valueOf(randomNumber));
-            emailManager.sendEmail(subject, content, email);
-            return ResponseEntity.success("验证码邮件已发送，请注意查收");
-        } catch (MessagingException | UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+        tbValidcodeService.insertOrUpdate(email, String.valueOf(randomNumber));
+        emailManager.sendEmail(subject, content, Collections.singleton(email));
+        return ResponseEntity.success("验证码邮件已发送，请注意查收");
     }
 
     @PostMapping("/validcode/resetPassword/{email}")
@@ -49,13 +44,9 @@ public class AuthController {
         int randomNumber = new Random().nextInt(9999 - 1000 + 1) + 1000;
         String subject = "MyCloud";
         String content = "您正在进行 MyCloud 账号的密码重置, 验证码为：" + randomNumber + ", 5分钟内有效\n";
-        try {
-            tbValidcodeService.insertOrUpdate(email, String.valueOf(randomNumber));
-            emailManager.sendEmail(subject, content, email);
-            return ResponseEntity.success("验证码邮件已发送，请注意查收");
-        } catch (MessagingException | UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+        tbValidcodeService.insertOrUpdate(email, String.valueOf(randomNumber));
+        emailManager.sendEmail(subject, content, Collections.singleton(email));
+        return ResponseEntity.success("验证码邮件已发送，请注意查收");
     }
 
     @PostMapping("/signup")
