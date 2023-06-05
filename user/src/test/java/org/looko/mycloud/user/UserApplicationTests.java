@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 
 @SpringBootTest
@@ -28,7 +27,7 @@ class UserApplicationTests {
     @Disabled
     @Test
     void testEmail() {
-        emailManager.sendEmail("test", "hello", Collections.singleton("1293242721@qq.com"));
+        emailManager.sendEmail("test", "hello", Collections.singleton("lookoutldz@outlook.com"));
     }
 
     @Autowired
