@@ -1,15 +1,12 @@
 package org.looko.mycloud.user;
 
-import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.looko.mycloud.emailstarter.component.EmailManager;
+import org.looko.mycloud.user.component.EmailManager;
 import org.looko.mycloud.user.controller.UserController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import java.util.Collections;
 
 @SpringBootTest
 class UserApplicationTests {
@@ -27,7 +24,7 @@ class UserApplicationTests {
     @Disabled
     @Test
     void testEmail() {
-        emailManager.sendEmail("test", "hello", Collections.singleton("lookoutldz@outlook.com"));
+        emailManager.sendSimpleMail("your-addr@outlook.com", "test", "hello");
     }
 
     @Autowired
