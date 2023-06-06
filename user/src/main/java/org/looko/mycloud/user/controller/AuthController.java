@@ -8,7 +8,6 @@ import org.looko.mycloud.user.service.TbValidcodeService;
 import org.looko.mycloud.user.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.Random;
 

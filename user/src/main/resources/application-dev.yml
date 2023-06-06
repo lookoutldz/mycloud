@@ -13,6 +13,28 @@ spring:
     user:
       name: user
       password: 123456
+  kafka:
+    bootstrap-servers: archlinux:9192
+    custom:
+      init:
+        topic: validCodeEmailMessages
+    producer:
+      retries: 5
+      batch-size: 16384
+      acks: -1
+      buffer-memory: 67108864
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.looko.mycloud.user.util.SimpleMailMessageSerializer
+    consumer:
+      group-id: userGroup
+      bootstrap-servers: archlinux:9192
+      # 处理毒丸现象 (poison pill)
+      key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        spring.json.trusted.packages: "org.springframework.mail"
+        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+        spring.deserializer.value.delegate.class: org.looko.mycloud.user.util.SimpleMailMessageDeserializer
   mail:
     default-encoding: UTF-8
     protocol: smtps

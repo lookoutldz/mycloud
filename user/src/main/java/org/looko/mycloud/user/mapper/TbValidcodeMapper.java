@@ -1,5 +1,6 @@
 package org.looko.mycloud.user.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import org.looko.mycloud.user.domain.TbValidcode;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
@@ -13,11 +14,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TbValidcodeMapper extends BaseMapper<TbValidcode> {
 
-    void insertOrUpdate(String email, String validcode);
+    void insertOrUpdate(@Param("email") String email,@Param("validcode") String validcode);
 
-    Boolean checkValidcode(String email, String validcode);
+    Boolean checkValidcode(@Param("email") String email,@Param("validcode") String validcode);
 
-    void expireValidcode(String email, String validcode);
+    void expireValidcode(@Param("email") String email,@Param("validcode") String validcode);
 }
 
 
