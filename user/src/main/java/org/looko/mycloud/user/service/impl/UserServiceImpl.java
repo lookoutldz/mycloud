@@ -3,15 +3,17 @@ package org.looko.mycloud.user.service.impl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.looko.mycloud.user.domain.User;
-import org.looko.mycloud.user.mapper.TbValidcodeMapper;
 import org.looko.mycloud.user.service.UserService;
 import org.looko.mycloud.user.mapper.UserMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.looko.mycloud.user.util.ValidcodeUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static org.looko.mycloud.user.enumeration.BusinessTypeEnum.VALIDCODE_REGISTER;
+import static org.looko.mycloud.user.enumeration.BusinessTypeEnum.VALIDCODE_RESET_PASSWORD;
 
 /**
 * @author aiden
@@ -22,24 +24,27 @@ import java.util.List;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     implements UserService{
 
-    @Autowired
-    private TbValidcodeMapper tbValidcodeMapper;
+    private final ValidcodeUtils validcodeUtils;
+
+    public UserServiceImpl(ValidcodeUtils validcodeUtils) {
+        this.validcodeUtils = validcodeUtils;
+    }
 
     @Override
     public List<User> listAll(Page<User> page) {
         return baseMapper.listAll(page);
     }
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
-    public User signup(String username, String password, String email, String validcode) {
+    @Transactional(rollbackFor = Exception.class)
+    public User register(String username, String password, String email, String validcode) {
         if (baseMapper.checkExistByUsername(username)) {
             throw new RuntimeException("该用户名已存在");
         }
         if (baseMapper.checkExistByEmail(email)) {
             throw new RuntimeException("该邮箱用户已注册");
         }
-        if (!tbValidcodeMapper.checkValidcode(email, validcode)) {
+        if (validcodeUtils.checkValidcodeFailed(VALIDCODE_REGISTER, email, validcode)) {
             throw new RuntimeException("验证码错误");
         }
         User user = new User();
@@ -47,18 +52,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         user.setPassword(new BCryptPasswordEncoder().encode(password));
         user.setEmail(email);
         baseMapper.insert(user);
-        tbValidcodeMapper.expireValidcode(email, validcode);
+        validcodeUtils.deleteValidcode(VALIDCODE_REGISTER, email);
         return user;
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void resetPassword(String email, String password, String validcode) {
-        if (!tbValidcodeMapper.checkValidcode(email, validcode)) {
+        if (validcodeUtils.checkValidcodeFailed(VALIDCODE_RESET_PASSWORD, email, validcode)) {
             throw new RuntimeException("验证码错误");
         }
         baseMapper.resetPassword(email, new BCryptPasswordEncoder().encode(password));
-        tbValidcodeMapper.expireValidcode(email, validcode);
+        validcodeUtils.deleteValidcode(VALIDCODE_RESET_PASSWORD, email);
     }
 }
 

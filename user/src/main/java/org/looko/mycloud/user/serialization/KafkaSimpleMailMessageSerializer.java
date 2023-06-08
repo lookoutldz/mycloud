@@ -1,4 +1,4 @@
-package org.looko.mycloud.user.util;
+package org.looko.mycloud.user.serialization;
 
 import com.google.gson.Gson;
 import org.apache.kafka.common.serialization.Serializer;
@@ -6,7 +6,7 @@ import org.springframework.mail.SimpleMailMessage;
 
 import java.nio.charset.StandardCharsets;
 
-public class SimpleMailMessageSerializer implements Serializer<SimpleMailMessage> {
+public class KafkaSimpleMailMessageSerializer implements Serializer<SimpleMailMessage> {
 
     @Override
     public byte[] serialize(String topic, SimpleMailMessage data) {

@@ -2,54 +2,53 @@ package org.looko.mycloud.user.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.looko.mycloud.commonstarter.entity.ResponseEntity;
-import org.looko.mycloud.user.component.EmailManager;
 import org.looko.mycloud.user.domain.User;
-import org.looko.mycloud.user.service.TbValidcodeService;
 import org.looko.mycloud.user.service.UserService;
+import org.looko.mycloud.user.util.EmailUtils;
+import org.looko.mycloud.user.util.ValidcodeUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-import java.util.Random;
+
+import static org.looko.mycloud.user.enumeration.BusinessTypeEnum.VALIDCODE_REGISTER;
+import static org.looko.mycloud.user.enumeration.BusinessTypeEnum.VALIDCODE_RESET_PASSWORD;
+
 
 @Slf4j
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final EmailManager emailManager;
-
     private final UserService userService;
+    private final EmailUtils emailUtils;
+    private final ValidcodeUtils validcodeUtils;
 
-    private final TbValidcodeService tbValidcodeService;
-
-    public AuthController(EmailManager emailManager, UserService userService, TbValidcodeService tbValidcodeService) {
-        this.emailManager = emailManager;
+    public AuthController(EmailUtils emailUtils, UserService userService, ValidcodeUtils validcodeUtils) {
         this.userService = userService;
-        this.tbValidcodeService = tbValidcodeService;
+        this.emailUtils = emailUtils;
+        this.validcodeUtils = validcodeUtils;
     }
 
-    @PostMapping("/validcode/signup/{email}")
-    public ResponseEntity<String> sendSignupCode(@PathVariable String email) {
-        int randomNumber = new Random().nextInt(9999 - 1000 + 1) + 1000;
-        String subject = "MyCloud";
-        String content = "您正在注册 MyCloud, 验证码为：" + randomNumber + ", 5分钟内有效\n";
-        tbValidcodeService.insertOrUpdate(email, String.valueOf(randomNumber));
-        emailManager.sendSimpleMail(email, subject, content);
+    @PostMapping("/validcode/register/{email}")
+    public ResponseEntity<String> sendRegisterCode(@PathVariable String email) {
+
+        String validcode = validcodeUtils.genValidcode();
+        validcodeUtils.saveValidcode(VALIDCODE_REGISTER, email, validcode);
+
+        emailUtils.postValidcodeEmail(VALIDCODE_REGISTER, email, validcode);
         return ResponseEntity.success("验证码邮件已发送，请注意查收");
     }
 
     @PostMapping("/validcode/resetPassword/{email}")
     public ResponseEntity<String> sendResetPasswordCode(@PathVariable String email) {
-        int randomNumber = new Random().nextInt(9999 - 1000 + 1) + 1000;
-        String subject = "MyCloud";
-        String content = "您正在进行 MyCloud 账号的密码重置, 验证码为：" + randomNumber + ", 5分钟内有效\n";
-        tbValidcodeService.insertOrUpdate(email, String.valueOf(randomNumber));
-        emailManager.sendSimpleMail(email, subject, content);
+        String validcode = validcodeUtils.genValidcode();
+        validcodeUtils.saveValidcode(VALIDCODE_RESET_PASSWORD, email, validcode);
+        emailUtils.postValidcodeEmail(VALIDCODE_RESET_PASSWORD, email, validcode);
         return ResponseEntity.success("验证码邮件已发送，请注意查收");
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestParam Map<String, String> data) {
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestParam Map<String, String> data) {
         String username = data.get("username");
         String password = data.get("password");
         String validcode = data.get("validcode");
@@ -57,7 +56,7 @@ public class AuthController {
         if (username == null || password == null || validcode == null || email == null) {
             throw new RuntimeException("注册信息不完整");
         }
-        User user = userService.signup(username, password, email, validcode);
+        User user = userService.register(username, password, email, validcode);
         log.info("用户注册成功：id:" + user.getId() + ",username:" + user.getUsername() + ",email:" + user.getEmail());
         return ResponseEntity.success("注册成功");
     }

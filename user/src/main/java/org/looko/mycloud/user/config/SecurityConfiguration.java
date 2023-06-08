@@ -46,7 +46,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/auth/validcode/**",
-                                "/auth/resetPassword/**", "/auth/signup")
+                                "/auth/resetPassword/**", "/auth/register")
                         .permitAll()
                         .anyRequest()
                         .authenticated()

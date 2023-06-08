@@ -22,6 +22,7 @@
         <mybatis.version>3.0.1</mybatis.version>
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <!--    其它依赖版本    -->
+        <redisson.version>3.22.0</redisson.version>
         <yaml.version>2.0</yaml.version>
         <jakarta.mail.version>2.0.1</jakarta.mail.version>
         <!--    自有模块版本    -->
@@ -61,7 +62,14 @@
                 <version>${mybatis-plus.version}</version>
             </dependency>
 
-            <!--  邮件依赖  -->
+            <!-- 分布式锁 -->
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+
+            <!--  email-starter(deprecated) 邮件依赖  -->
             <dependency>
                 <groupId>com.sun.mail</groupId>
                 <artifactId>jakarta.mail</artifactId>

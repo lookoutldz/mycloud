@@ -13,8 +13,17 @@ spring:
     user:
       name: user
       password: 123456
+  # redis 哨兵集群
+  data:
+    redis:
+      sentinel:
+        master: mymaster
+        nodes: archlinux:26379,archlinux:26380,archlinux:26381
+      password: root
+  # kafka 集群
   kafka:
     bootstrap-servers: archlinux:9192
+    # 自定义的属性和参数，用于指定topic名称
     custom:
       init:
         topic: validCodeEmailMessages
@@ -24,7 +33,7 @@ spring:
       acks: -1
       buffer-memory: 67108864
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.looko.mycloud.user.util.SimpleMailMessageSerializer
+      value-serializer: org.looko.mycloud.user.serialization.KafkaSimpleMailMessageSerializer
     consumer:
       group-id: userGroup
       bootstrap-servers: archlinux:9192
@@ -34,7 +43,7 @@ spring:
       properties:
         spring.json.trusted.packages: "org.springframework.mail"
         spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
-        spring.deserializer.value.delegate.class: org.looko.mycloud.user.util.SimpleMailMessageDeserializer
+        spring.deserializer.value.delegate.class: org.looko.mycloud.user.serialization.KafkaSimpleMailMessageDeserializer
   mail:
     default-encoding: UTF-8
     protocol: smtps

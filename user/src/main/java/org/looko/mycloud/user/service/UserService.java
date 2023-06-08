@@ -15,7 +15,7 @@ public interface UserService extends IService<User> {
 
     List<User> listAll(Page<User> page);
 
-    User signup(String username, String password, String email, String validcode);
+    User register(String username, String password, String email, String validcode);
 
     void resetPassword(String email, String password, String validcode);
 }
