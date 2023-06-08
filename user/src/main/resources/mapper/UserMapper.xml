@@ -40,6 +40,10 @@
         select <include refid="Base_Column_List"/> from user where username = #{username}
     </select>
 
+    <select id="getByEmail" resultType="org.looko.mycloud.user.domain.User">
+        select <include refid="Base_Column_List"/> from user where email = #{email}
+    </select>
+
     <select id="checkExistByEmail" resultType="java.lang.Boolean">
         SELECT EXISTS(SELECT 1 FROM user WHERE email=#{email});
     </select>

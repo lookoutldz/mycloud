@@ -20,6 +20,8 @@ public interface UserMapper extends BaseMapper<User> {
 
     User getByUsername(String username);
 
+    User getByEmail(String email);
+
     Boolean checkExistByEmail(String email);
 
     Boolean checkExistByUsername(String username);
