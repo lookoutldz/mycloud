@@ -1,0 +1,99 @@
+version: '3'
+services:
+  redis1:
+    container_name: redis1
+    image: docker.io/redis:7.0.11-alpine3.17
+    environment: 
+      - TZ=Asia/Shanghai
+    restart: always
+    command: redis-server --requirepass root --masterauth root --replica-announce-ip "archlinux" --replica-announce-port 6379 --appendonly yes
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis1/data:/data
+    networks:
+      - redis_sentinel_network
+
+  redis2:
+    container_name: redis2
+    image: docker.io/redis:7.0.11-alpine3.17
+    environment: 
+      - TZ=Asia/Shanghai
+    restart: always
+    command: redis-server --slaveof archlinux 6379 --requirepass root --masterauth root --replica-announce-ip "archlinux" --replica-announce-port 6380 --appendonly yes
+    ports:
+      - 6380:6379
+    volumes:
+      - ./redis2/data:/data
+    networks:
+      - redis_sentinel_network
+    depends_on:
+      - redis1
+
+  redis3:
+    container_name: redis3
+    image: docker.io/redis:7.0.11-alpine3.17
+    environment: 
+      - TZ=Asia/Shanghai
+    restart: always
+    command: redis-server --slaveof archlinux 6379 --requirepass root --masterauth root --replica-announce-ip "archlinux" --replica-announce-port 6381 --appendonly yes
+    ports:
+      - 6381:6379
+    volumes:
+      - ./redis3/data:/data
+    networks:
+      - redis_sentinel_network
+    depends_on:
+      - redis2
+
+  redis_sentinel_1:
+    container_name: redis_sentinel_1
+    image: docker.io/redis:7.0.11-alpine3.17
+    environment: 
+      - TZ=Asia/Shanghai
+    restart: always
+    command: redis-sentinel /usr/local/etc/redis/conf/sentinel.conf
+    ports:
+      - 26379:26379
+    volumes:
+      - ./sentinel1/conf:/usr/local/etc/redis/conf
+    networks:
+      - redis_sentinel_network
+    depends_on:
+      - redis3
+
+  redis_sentinel_2:
+    container_name: redis_sentinel_2
+    image: docker.io/redis:7.0.11-alpine3.17
+    environment: 
+      - TZ=Asia/Shanghai
+    restart: always
+    command: redis-sentinel /usr/local/etc/redis/conf/sentinel.conf
+    ports:
+      - 26380:26379
+    volumes:
+      - ./sentinel2/conf:/usr/local/etc/redis/conf
+    networks:
+      - redis_sentinel_network
+    depends_on:
+      - redis_sentinel_1
+
+  redis_sentinel_3:
+    container_name: redis_sentinel_3
+    image: docker.io/redis:7.0.11-alpine3.17
+    environment: 
+      - TZ=Asia/Shanghai
+    restart: always
+    command: redis-sentinel /usr/local/etc/redis/conf/sentinel.conf
+    ports:
+      - 26381:26379
+    volumes:
+      - ./sentinel3/conf:/usr/local/etc/redis/conf
+    networks:
+      - redis_sentinel_network
+    depends_on:
+      - redis_sentinel_2
+
+networks:
+  redis_sentinel_network:
+    name: redis_sentinel_network
