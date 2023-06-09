@@ -23,6 +23,7 @@
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <!--    其它依赖版本    -->
         <redisson.version>3.22.0</redisson.version>
+        <netty.version>4.1.91.Final</netty.version>
         <yaml.version>2.0</yaml.version>
         <jakarta.mail.version>2.0.1</jakarta.mail.version>
         <!--    自有模块版本    -->
@@ -67,6 +68,18 @@
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson-spring-boot-starter</artifactId>
                 <version>${redisson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-resolver-dns-native-macos</artifactId>
+                <version>${netty.version}</version>
+                <classifier>osx-aarch_64</classifier>
             </dependency>
 
             <!--  email-starter(deprecated) 邮件依赖  -->

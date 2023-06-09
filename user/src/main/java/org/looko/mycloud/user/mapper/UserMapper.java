@@ -1,6 +1,7 @@
 package org.looko.mycloud.user.mapper;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.ibatis.annotations.Param;
 import org.looko.mycloud.user.domain.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
@@ -26,7 +27,7 @@ public interface UserMapper extends BaseMapper<User> {
 
     Boolean checkExistByUsername(String username);
 
-    void resetPassword(String email, String password);
+    void resetPassword(@Param("email") String email, @Param("password") String password);
 }
 
 

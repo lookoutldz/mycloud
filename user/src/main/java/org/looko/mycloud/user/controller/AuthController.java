@@ -2,16 +2,9 @@ package org.looko.mycloud.user.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.looko.mycloud.commonstarter.entity.ResponseEntity;
-import org.looko.mycloud.user.domain.User;
-import org.looko.mycloud.user.service.UserService;
-import org.looko.mycloud.user.util.EmailUtils;
-import org.looko.mycloud.user.util.ValidcodeUtils;
+import org.looko.mycloud.user.service.AuthorizationService;
+import org.looko.mycloud.user.vo.RegistrationFormVO;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
-
-import static org.looko.mycloud.user.enumeration.BusinessTypeEnum.VALIDCODE_REGISTER;
-import static org.looko.mycloud.user.enumeration.BusinessTypeEnum.VALIDCODE_RESET_PASSWORD;
 
 
 @Slf4j
@@ -19,57 +12,70 @@ import static org.looko.mycloud.user.enumeration.BusinessTypeEnum.VALIDCODE_RESE
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final UserService userService;
-    private final EmailUtils emailUtils;
-    private final ValidcodeUtils validcodeUtils;
-
-    public AuthController(EmailUtils emailUtils, UserService userService, ValidcodeUtils validcodeUtils) {
-        this.userService = userService;
-        this.emailUtils = emailUtils;
-        this.validcodeUtils = validcodeUtils;
+    private final AuthorizationService authorizationService;
+    public AuthController(AuthorizationService authorizationService) {
+        this.authorizationService = authorizationService;
     }
 
+    /**
+     * 验证码接口 - 注册验证码
+     * @param email 接收验证码的邮箱
+     */
     @PostMapping("/validcode/register/{email}")
-    public ResponseEntity<String> sendRegisterCode(@PathVariable String email) {
-
-        String validcode = validcodeUtils.genValidcode();
-        validcodeUtils.saveValidcode(VALIDCODE_REGISTER, email, validcode);
-
-        emailUtils.postValidcodeEmail(VALIDCODE_REGISTER, email, validcode);
-        return ResponseEntity.success("验证码邮件已发送，请注意查收");
+    public ResponseEntity<String> sendRegisterValidcode(@PathVariable String email) {
+        // TODO 校验前端数据
+        if (authorizationService.sendRegisterValidcode(email)) {
+            return ResponseEntity.success("验证码邮件已发送，请注意查收");
+        } else {
+            return ResponseEntity.failure();
+        }
     }
 
+    /**
+     * 验证码接口 - 重置密码验证码
+     * @param email 接收验证码的邮箱
+     */
     @PostMapping("/validcode/resetPassword/{email}")
-    public ResponseEntity<String> sendResetPasswordCode(@PathVariable String email) {
-        String validcode = validcodeUtils.genValidcode();
-        validcodeUtils.saveValidcode(VALIDCODE_RESET_PASSWORD, email, validcode);
-        emailUtils.postValidcodeEmail(VALIDCODE_RESET_PASSWORD, email, validcode);
-        return ResponseEntity.success("验证码邮件已发送，请注意查收");
+    public ResponseEntity<String> sendResetPasswordValidcode(@PathVariable String email) {
+        // TODO 校验前端数据
+        if (authorizationService.sendResetPasswordValidcode(email)) {
+            return ResponseEntity.success("验证码邮件已发送，请注意查收");
+        } else {
+            return ResponseEntity.failure();
+        }
     }
 
+    /**
+     * 注册
+     * @param form 注册表单
+     */
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestParam Map<String, String> data) {
-        String username = data.get("username");
-        String password = data.get("password");
-        String validcode = data.get("validcode");
-        String email = data.get("email");
-        if (username == null || password == null || validcode == null || email == null) {
+    public ResponseEntity<String> register(@RequestBody RegistrationFormVO form) {
+        // TODO 校验前端数据
+        if (form.username() == null || form.password() == null || form.validcode() == null || form.email() == null) {
             throw new RuntimeException("注册信息不完整");
         }
-        User user = userService.register(username, password, email, validcode);
-        log.info("用户注册成功：id:" + user.getId() + ",username:" + user.getUsername() + ",email:" + user.getEmail());
-        return ResponseEntity.success("注册成功");
+        if (authorizationService.register(form)) {
+            return ResponseEntity.success("注册成功");
+        } else {
+            return ResponseEntity.failure();
+        }
     }
 
-    @PostMapping("/resetPassword/{email}")
-    public ResponseEntity<String> resetPassword(@PathVariable String email, @RequestParam Map<String, String> data) {
-        String password = data.get("password");
-        String validcode = data.get("validcode");
-        if (password == null || validcode == null) {
-            throw new RuntimeException("密码或验证码为空");
+    /**
+     * 重置密码
+     * @param form 注册表单
+     */
+    @PostMapping("/resetPassword/")
+    public ResponseEntity<String> resetPassword(@RequestBody RegistrationFormVO form) {
+        // TODO 校验前端数据
+        if (form.password() == null || form.validcode() == null || form.email() == null) {
+            throw new RuntimeException("邮箱，密码或验证码为空");
         }
-        userService.resetPassword(email, password, validcode);
-        log.info("用户重置密码成功：email:" + email);
-        return ResponseEntity.success("密码重置成功");
+        if (authorizationService.resetPassword(form)) {
+            return ResponseEntity.success("密码重置成功");
+        } else {
+            return ResponseEntity.failure();
+        }
     }
 }

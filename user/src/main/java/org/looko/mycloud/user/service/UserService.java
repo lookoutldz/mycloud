@@ -14,8 +14,4 @@ import java.util.List;
 public interface UserService extends IService<User> {
 
     List<User> listAll(Page<User> page);
-
-    User register(String username, String password, String email, String validcode);
-
-    void resetPassword(String email, String password, String validcode);
 }

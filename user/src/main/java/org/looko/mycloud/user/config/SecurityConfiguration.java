@@ -52,12 +52,12 @@ public class SecurityConfiguration {
                         .authenticated()
                 )
                 .formLogin(form -> form
-                        .loginProcessingUrl("/user/auth/login")
+                        .loginProcessingUrl("/auth/login")
                         .successHandler(this::onAuthenticationSuccess)
                         .failureHandler(this::onAuthenticationFailure)
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/user/auth/logout")
+                        .logoutUrl("/auth/logout")
                         .logoutSuccessHandler(this::onAuthenticationSuccess)
                 )
                 .rememberMe(remember -> remember
@@ -77,6 +77,7 @@ public class SecurityConfiguration {
     }
 
     private CorsConfigurationSource corsConfigurationSource() {
+        // TODO 跨域的详细处理
         CorsConfiguration cors = new CorsConfiguration();
         cors.addAllowedOriginPattern("*");
         cors.addAllowedHeader("*");
@@ -88,6 +89,10 @@ public class SecurityConfiguration {
         return source;
     }
 
+    /**
+     * 若没有手动创建 persistent_logins 表
+     * 则初次运行需要 setCreateTableOnStartup(true) 以创建该表
+     */
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {
         JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();

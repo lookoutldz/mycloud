@@ -3,25 +3,24 @@ package org.looko.mycloud.user.util;
 import lombok.extern.slf4j.Slf4j;
 import org.looko.mycloud.user.enumeration.BusinessTypeEnum;
 import org.looko.mycloud.user.exception.RedisException;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import static org.looko.mycloud.user.util.Constants.dLockPrefix;
 import static org.looko.mycloud.user.util.Constants.validcodeExpireMinutes;
 
 @Slf4j
 @Component
 public class ValidcodeUtils {
 
-    private final StringRedisTemplate stringRedisTemplate;
-    private final ValueOperations<String, String> vOps;
+    private final RedissonClient redissonClient;
 
-    public ValidcodeUtils(StringRedisTemplate stringRedisTemplate) {
-        this.stringRedisTemplate = stringRedisTemplate;
-        vOps = stringRedisTemplate.opsForValue();
+    public ValidcodeUtils(RedissonClient redissonClient) {
+        this.redissonClient = redissonClient;
     }
 
     /**
@@ -34,7 +33,6 @@ public class ValidcodeUtils {
     }
 
     /**
-     * TODO 加分布式锁
      * 验证码存储到 Redis
      * @param businessTypeEnum 业务类型
      * @param email 收件人邮箱
@@ -42,15 +40,21 @@ public class ValidcodeUtils {
      * @throws RedisException redis 依赖异常
      */
     public void saveValidcode(BusinessTypeEnum businessTypeEnum, String email, String validcode) throws RedisException {
-        try {
-            vOps.set(genStoreKey(businessTypeEnum, email), validcode, validcodeExpireMinutes, TimeUnit.MINUTES);
-        } catch (Exception e) {
-            throw new RedisException("Redis服务暂不可用", e);
+        String storeKey = genStoreKey(businessTypeEnum, email);
+        // 加分布式锁
+        RLock rLock = redissonClient.getLock(dLockPrefix + storeKey);
+        if (rLock.tryLock()) {
+            try {
+                redissonClient.getBucket(storeKey).set(validcode, validcodeExpireMinutes, TimeUnit.MINUTES);
+            } catch (Exception e) {
+                throw new RedisException("Redis服务暂不可用", e);
+            } finally {
+                rLock.unlock();
+            }
         }
     }
 
     /**
-     * TODO 加分布式锁
      * 从 Redis 获取验证码
      * @param businessTypeEnum 业务类型
      * @param email 收件人邮箱
@@ -58,11 +62,19 @@ public class ValidcodeUtils {
      * @throws RedisException redis 依赖异常
      */
     public String getValidcode(BusinessTypeEnum businessTypeEnum, String email) throws RedisException {
-        try {
-            return vOps.get(genStoreKey(businessTypeEnum, email));
-        } catch (Exception e) {
-            throw new RedisException("Redis服务暂不可用", e);
+        String storeKey = genStoreKey(businessTypeEnum, email);
+        // 加分布式锁
+        RLock rLock = redissonClient.getLock(dLockPrefix + storeKey);
+        if (rLock.tryLock()) {
+            try {
+                return (String) redissonClient.getBucket(storeKey).get();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            } finally {
+                rLock.unlock();
+            }
         }
+        return null;
     }
 
     public boolean checkValidcodeFailed(BusinessTypeEnum businessTypeEnum, String email, String validcode) {
@@ -74,17 +86,23 @@ public class ValidcodeUtils {
     }
 
     /**
-     * TODO 加分布式锁
      * 删除特定业务类型和发件人邮箱的验证码
      * @param businessTypeEnum 业务类型
      * @param email 发件人邮箱
      */
     public void deleteValidcode(BusinessTypeEnum businessTypeEnum, String email) {
         String storeKey = genStoreKey(businessTypeEnum, email);
-        try {
-            stringRedisTemplate.delete(storeKey);
-        } catch (Exception e) {
-            log.error("删除 RedisKey[" + storeKey + "] 出错", e);
+        // 加分布式锁
+        RLock rLock = redissonClient.getLock(dLockPrefix + storeKey);
+        if (rLock.tryLock()) {
+            try {
+                redissonClient.getBucket(storeKey).delete();
+            } catch (Exception e) {
+                log.error("删除 RedisKey[" + storeKey + "] 出错", e);
+                throw new RuntimeException(e);
+            } finally {
+                rLock.unlock();
+            }
         }
     }
 
