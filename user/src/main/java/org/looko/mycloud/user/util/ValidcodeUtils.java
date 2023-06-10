@@ -2,7 +2,7 @@ package org.looko.mycloud.user.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.looko.mycloud.user.enumeration.BusinessTypeEnum;
-import org.looko.mycloud.user.exception.RedisException;
+import org.looko.mycloud.user.exception.MyRedisException;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Component;
@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import static org.looko.mycloud.user.util.Constants.dLockPrefix;
-import static org.looko.mycloud.user.util.Constants.validcodeExpireMinutes;
+import static org.looko.mycloud.user.constant.Parameters.dLockPrefix;
+import static org.looko.mycloud.user.constant.Parameters.validcodeExpireMinutes;
 
 @Slf4j
 @Component
@@ -37,9 +37,9 @@ public class ValidcodeUtils {
      * @param businessTypeEnum 业务类型
      * @param email 收件人邮箱
      * @param validcode 验证码
-     * @throws RedisException redis 依赖异常
+     * @throws MyRedisException redis 依赖异常
      */
-    public void saveValidcode(BusinessTypeEnum businessTypeEnum, String email, String validcode) throws RedisException {
+    public void saveValidcode(BusinessTypeEnum businessTypeEnum, String email, String validcode) throws MyRedisException {
         String storeKey = genStoreKey(businessTypeEnum, email);
         // 加分布式锁
         RLock rLock = redissonClient.getLock(dLockPrefix + storeKey);
@@ -47,7 +47,7 @@ public class ValidcodeUtils {
             try {
                 redissonClient.getBucket(storeKey).set(validcode, validcodeExpireMinutes, TimeUnit.MINUTES);
             } catch (Exception e) {
-                throw new RedisException("Redis服务暂不可用", e);
+                throw new MyRedisException("Redis服务暂不可用", e);
             } finally {
                 rLock.unlock();
             }
@@ -59,9 +59,9 @@ public class ValidcodeUtils {
      * @param businessTypeEnum 业务类型
      * @param email 收件人邮箱
      * @return 验证码
-     * @throws RedisException redis 依赖异常
+     * @throws MyRedisException redis 依赖异常
      */
-    public String getValidcode(BusinessTypeEnum businessTypeEnum, String email) throws RedisException {
+    public String getValidcode(BusinessTypeEnum businessTypeEnum, String email) throws MyRedisException {
         String storeKey = genStoreKey(businessTypeEnum, email);
         // 加分布式锁
         RLock rLock = redissonClient.getLock(dLockPrefix + storeKey);
@@ -87,6 +87,8 @@ public class ValidcodeUtils {
 
     /**
      * 删除特定业务类型和发件人邮箱的验证码
+     * 删除出错的情况：
+     *      要么中途宕机要么网络断连, 属极端情况, 在有接口流控和 Key 自动过期的情况下可暂不处理
      * @param businessTypeEnum 业务类型
      * @param email 发件人邮箱
      */
@@ -98,8 +100,7 @@ public class ValidcodeUtils {
             try {
                 redissonClient.getBucket(storeKey).delete();
             } catch (Exception e) {
-                log.error("删除 RedisKey[" + storeKey + "] 出错", e);
-                throw new RuntimeException(e);
+                log.error("删除 RedisKey[{}] 出错", storeKey, e);
             } finally {
                 rLock.unlock();
             }

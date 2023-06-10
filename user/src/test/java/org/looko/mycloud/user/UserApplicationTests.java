@@ -3,7 +3,6 @@ package org.looko.mycloud.user;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.looko.mycloud.user.controller.UserController;
-import org.looko.mycloud.user.domain.User;
 import org.looko.mycloud.user.enumeration.BusinessTypeEnum;
 import org.looko.mycloud.user.util.EmailUtils;
 import org.redisson.api.RLock;
@@ -31,8 +30,8 @@ class UserApplicationTests {
 
     @Disabled
     @Test
-    void testEmail() {
-        emailUtils.postValidcodeEmail(BusinessTypeEnum.VALIDCODE_LOGIN, "your-addr@outlook.com", "123456");
+    void testEmail() throws Exception {
+        emailUtils.publishValidcodeEmail(BusinessTypeEnum.VALIDCODE_LOGIN, "your-addr@outlook.com", "123456");
     }
 
     @Autowired

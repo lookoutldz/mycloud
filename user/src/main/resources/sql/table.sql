@@ -17,16 +17,17 @@ CREATE TABLE `user` (
     UNIQUE KEY `idx_username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `tb_validcode` (
-    `id` int NOT NULL AUTO_INCREMENT,
-    `email` varchar(191) NOT NULL,
-    `validcode` varchar(191) DEFAULT NULL,
-    `validcode_expire` timestamp NULL DEFAULT NULL,
-    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `update_time` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `idx_email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+# @deprecated(use redis instead)
+# CREATE TABLE `tb_validcode` (
+#     `id` int NOT NULL AUTO_INCREMENT,
+#     `email` varchar(191) NOT NULL,
+#     `validcode` varchar(191) DEFAULT NULL,
+#     `validcode_expire` timestamp NULL DEFAULT NULL,
+#     `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+#     `update_time` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+#     PRIMARY KEY (`id`),
+#     UNIQUE KEY `idx_email` (`email`)
+# ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `persistent_logins` (
     `username` varchar(64) NOT NULL,
