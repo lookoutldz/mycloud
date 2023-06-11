@@ -39,9 +39,11 @@ build/
 .DS_Store
 
 application.properties
+application-0*.properties
 application-prod.properties
 test.properties
 application.yml
+application-0*.yml
 application-prod.yml
 test.yml
 
