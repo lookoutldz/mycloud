@@ -1,0 +1,33 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: cloud-email
+  # kafka 集群
+  kafka:
+    bootstrap-servers: archlinux:9192
+    # 自定义的属性和参数，用于指定topic名称
+    custom:
+      topic:
+        email: validCodeEmailMessages
+    consumer:
+      group-id: userGroup
+      bootstrap-servers: archlinux:9192
+      # 处理毒丸现象 (poison pill)
+      key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        # 当有序列化安全信任问题时放开下面一行的注释
+        #        spring.json.trusted.packages: "org.springframework.mail"
+        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+        spring.deserializer.value.delegate.class: org.looko.mycloud.user.serialization.KafkaSimpleMailMessageDeserializer
+  mail:
+    default-encoding: UTF-8
+    protocol: smtps
+    host: smtp.qq.com
+    username: abc@qq.com
+    password: xxxyyy
+    properties:
+      mail:
+        smtp:
+          from: MyCloud-NoReply <abc@qq.com>
