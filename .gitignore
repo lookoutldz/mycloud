@@ -38,15 +38,16 @@ build/
 ### Mac OS ###
 .DS_Store
 
-application.properties
-application-0*.properties
-application-prod.properties
-test.properties
-application.yml
-application-0*.yml
-application-prod.yml
-test.yml
+### 配置文件 ###
+*.properties
+!application-dev.properties
+!application-public.properties
+
+*.yml
+!application-dev.yml
+!application-public.yml
 
 demo
 .idea
 *.backup
+HELP.md
