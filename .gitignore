@@ -40,10 +40,12 @@ build/
 
 ### 配置文件 ###
 *.properties
+*.properties.backup
 !application-dev.properties
 !application-public.properties
 
 *.yml
+*.yml.backup
 !application-dev.yml
 !application-public.yml
 
