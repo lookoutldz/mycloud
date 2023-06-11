@@ -15,3 +15,4 @@ This is a cloud services hub, including services created by every idea.
 #### [common-starter 模块](./common-starter/README.md)
 #### [email-starter 模块(deprecated)](./email-starter/README.md)
 #### [user 模块](./user/README.md)
+#### [mail 模块](./mail/README.md)
