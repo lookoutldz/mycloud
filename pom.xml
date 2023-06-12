@@ -22,6 +22,8 @@
         <mybatis.version>3.0.1</mybatis.version>
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <!--    其它依赖版本    -->
+        <sentinel.version>1.8.6</sentinel.version>
+        <!--    其它依赖版本    -->
         <redisson.version>3.22.0</redisson.version>
         <netty.version>4.1.91.Final</netty.version>
         <yaml.version>2.0</yaml.version>
@@ -80,6 +82,18 @@
                 <artifactId>netty-resolver-dns-native-macos</artifactId>
                 <version>${netty.version}</version>
                 <classifier>osx-aarch_64</classifier>
+            </dependency>
+
+            <!--  Sentinel 流控  -->
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-core</artifactId>
+                <version>${sentinel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-transport-simple-http</artifactId>
+                <version>${sentinel.version}</version>
             </dependency>
 
             <!--  email-starter(deprecated) 邮件依赖  -->

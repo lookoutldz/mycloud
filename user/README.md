@@ -28,3 +28,17 @@ user 模块 ->> + MySQL : 校验通过创建新用户
 MySQL -->> - user 模块 : 创建完成
 user 模块 -->> + mycloud-frontend : 返回用户注册成功的提示
 ```
+
+### 启动参数
+
+JVM 参数
+```text
+-Xms256m
+-Xmx256m
+-XX:+HeapDumpBeforeFullGC
+-XX:+HeapDumpOnOutOfMemoryError
+-XX:HeapDumpPath=/Users/yourname/Workspaces/IdeaProjects/mycloud/user/resources/heapdump
+-javaagent:/Users/yourname/Workspaces/IdeaProjects/mycloud/skywalking-agent/skywalking-agent.jar
+-Dskywalking.agent.service_name=cloud-user-01
+-Dskywalking.logging.file_name=cloud-user-01-api.log
+```

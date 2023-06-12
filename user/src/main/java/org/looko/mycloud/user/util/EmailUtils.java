@@ -11,6 +11,7 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 import static org.looko.mycloud.user.constant.Parameters.validcodeExpireMinutes;
@@ -34,7 +35,7 @@ public class EmailUtils {
      * @param validcode 验证码
      */
     public void publishValidcodeEmail(BusinessTypeEnum businessTypeEnum, String to, String validcode) {
-        final String key = "SimpleMailMessage";
+        final String key = UUID.randomUUID().toString();
         SimpleMailMessage message = genValidcodeEmail(businessTypeEnum, to, validcode);
         ProducerRecord<String, SimpleMailMessage> record = new ProducerRecord<>(topic, key, message);
         CompletableFuture<SendResult<String, SimpleMailMessage>> future = kafkaTemplate.send(record);

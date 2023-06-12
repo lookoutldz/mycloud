@@ -27,6 +27,12 @@ spring:
       buffer-memory: 67108864
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.looko.mycloud.user.serialization.KafkaSimpleMailMessageSerializer
+  cloud:
+    nacos:
+      discovery:
+        server-addr: archlinux:8848
+        username: nacos
+        password: nacos
 
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
