@@ -1,4 +1,4 @@
-package org.looko.mycloud.user.serialization;
+package org.looko.mycloud.mail.serialization;
 
 import com.google.gson.Gson;
 import org.apache.kafka.common.serialization.Deserializer;
