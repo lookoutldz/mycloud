@@ -1,4 +1,6 @@
-CREATE TABLE `user` (
+CREATE DATABASE IF NOT EXISTS `mycloud` DEFAULT CHARSET utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `user` (
     `id` int unsigned NOT NULL AUTO_INCREMENT,
     `username` varchar(191) NOT NULL DEFAULT '',
     `password` varchar(191) NOT NULL DEFAULT '',
@@ -29,7 +31,7 @@ CREATE TABLE `user` (
 #     UNIQUE KEY `idx_email` (`email`)
 # ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `persistent_logins` (
+CREATE TABLE IF NOT EXISTS `persistent_logins` (
     `username` varchar(64) NOT NULL,
     `series` varchar(64) NOT NULL,
     `token` varchar(64) NOT NULL,
