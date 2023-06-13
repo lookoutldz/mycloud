@@ -24,6 +24,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--    Spring 组件版本    -->
         <spring-cloud-alibaba.version>2022.0.0.0-RC2</spring-cloud-alibaba.version>
+        <spring-cloud.version>2022.0.0</spring-cloud.version>
+        <spring-cloud-gateway.version>4.0.6</spring-cloud-gateway.version>
         <spring-boot.version>3.0.7</spring-boot.version>
         <!--    MyBatis 组件版本   -->
         <mybatis.version>3.0.1</mybatis.version>
@@ -51,6 +53,15 @@
                 <scope>import</scope>
             </dependency>
 
+            <!--  SpringCloud 版本管理  -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
             <!--  SpringBoot 版本管理  -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -58,6 +69,13 @@
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <!--  SpringCloud 网关版本管理  -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-gateway</artifactId>
+                <version>${spring-cloud-gateway.version}</version>
             </dependency>
 
             <!--  MyBatis & MyBatis Plus  -->
