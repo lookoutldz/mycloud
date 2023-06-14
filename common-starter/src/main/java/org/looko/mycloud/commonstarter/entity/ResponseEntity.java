@@ -10,6 +10,8 @@ public class ResponseEntity<T> implements Serializable {
 
     private static final String RESULT_KEY = "data";
 
+    private static final String EMPTY_STRING = "";
+
     private final ResponseStatusEnum responseStatusEnum;
 
     private final Map<String, Object> resultMap;
@@ -32,7 +34,7 @@ public class ResponseEntity<T> implements Serializable {
     }
 
     public static <T> ResponseEntity<T> success(T data) {
-        return new ResponseEntity<>(ResponseStatusEnum.SUCCESS, Map.of(RESULT_KEY, data));
+        return new ResponseEntity<>(ResponseStatusEnum.SUCCESS, Map.of(RESULT_KEY, data == null ? EMPTY_STRING : data));
     }
 
     public static <T> ResponseEntity<T> failure() {
@@ -44,7 +46,7 @@ public class ResponseEntity<T> implements Serializable {
     }
 
     public static <T> ResponseEntity<T> failure(ResponseStatusEnum responseStatusEnum, T data) {
-        return new ResponseEntity<>(responseStatusEnum, Map.of(RESULT_KEY, data));
+        return new ResponseEntity<>(responseStatusEnum, Map.of(RESULT_KEY, data == null ? EMPTY_STRING : data));
     }
 
     @Override
