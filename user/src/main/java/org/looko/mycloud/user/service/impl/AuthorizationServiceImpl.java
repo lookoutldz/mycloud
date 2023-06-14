@@ -155,6 +155,11 @@ public class AuthorizationServiceImpl implements AuthorizationService {
      */
     @Override
     public Boolean sendRegisterValidcode(String email) {
+        // 校验该邮箱的用户是否存在
+        if (userMapper.getByEmail(email) != null) {
+            throw new RuntimeException(Messages.userExist);
+        }
+
         return commonSendValidcode(VALIDCODE_REGISTER, email);
     }
 
@@ -217,4 +222,3 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         return false;
     }
 }
-

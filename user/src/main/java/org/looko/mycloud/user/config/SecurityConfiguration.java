@@ -68,8 +68,11 @@ public class SecurityConfiguration {
                 .exceptionHandling()
                 .authenticationEntryPoint(this::commence)
                 .and()
+                // 如果不关闭 csrf，请求又中没有 csrf 令牌则会返回 403
+                .csrf()
+                .disable()
                 .build();
-        // CORS(跨域) 和 CSRF(跨站请求伪造) 统一在网关配置
+        // CORS(跨域) 统一在网关配置
     }
 
     @Deprecated

@@ -9,4 +9,5 @@ public class Messages {
     public static final String usernameExist = "用户名已存在";
     public static final String emailExist = "邮箱已存在";
     public static final String userNotFound = "用户不存在";
+    public static final String userExist = "用户已存在";
 }
