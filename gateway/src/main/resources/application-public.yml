@@ -26,8 +26,8 @@ spring:
         cors-configurations:
           '[/**]':
             allowedOrigins:
-              - http://localhost
-              - http://archlinux
+              - http://localhost:5173
+              - http://archlinux:5173
             allowedMethods:
               - GET
               - POST
@@ -39,8 +39,35 @@ spring:
           uri: lb://cloud-user
           predicates:
             - Path=/user/test/port
-
-        - id: user_auth_validcode_register
+        - id: user_get_by_id
+          uri: lb://cloud-user
+          predicates:
+            - Path=/user/id/**
+        - id: user_get_all
+          uri: lb://cloud-user
+          predicates:
+            - Path=/user/all
+        - id: auth_validcode_register
           uri: lb://cloud-user
           predicates:
             - Path=/auth/validcode/register/**
+        - id: auth_validcode_reset_password
+          uri: lb://cloud-user
+          predicates:
+            - Path=/auth/validcode/resetPassword/**
+        - id: auth_register
+          uri: lb://cloud-user
+          predicates:
+            - Path=/auth/register
+        - id: auth_reset_password
+          uri: lb://cloud-user
+          predicates:
+            - Path=/auth/resetPassword
+        - id: auth_login
+          uri: lb://cloud-user
+          predicates:
+            - Path=/auth/login
+        - id: auth_logout
+          uri: lb://cloud-user
+          predicates:
+            - Path=/auth/logout
