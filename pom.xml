@@ -15,6 +15,7 @@
         <module>email-starter</module>
         <module>mail</module>
         <module>user</module>
+        <module>gateway</module>
     </modules>
 
     <properties>
@@ -27,6 +28,8 @@
         <spring-cloud.version>2022.0.0</spring-cloud.version>
         <spring-cloud-gateway.version>4.0.6</spring-cloud-gateway.version>
         <spring-boot.version>3.0.7</spring-boot.version>
+        <!--    Caffeine 组件版本   -->
+        <caffeine.version>3.1.6</caffeine.version>
         <!--    MyBatis 组件版本   -->
         <mybatis.version>3.0.1</mybatis.version>
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
@@ -38,7 +41,7 @@
         <yaml.version>2.0</yaml.version>
         <jakarta.mail.version>2.0.1</jakarta.mail.version>
         <!--    自有模块版本    -->
-        <mycloud-common-starter.version>0.0.20-SNAPSHOT</mycloud-common-starter.version>
+        <mycloud-common-starter.version>0.0.21-SNAPSHOT</mycloud-common-starter.version>
         <mycloud-email-starter.version>0.0.2-SNAPSHOT</mycloud-email-starter.version>
     </properties>
 
@@ -77,6 +80,13 @@
                 <artifactId>spring-cloud-starter-gateway</artifactId>
                 <version>${spring-cloud-gateway.version}</version>
             </dependency>
+            <!--  网关缓存实现 -->
+            <dependency>
+                <groupId>com.github.ben-manes.caffeine</groupId>
+                <artifactId>caffeine</artifactId>
+                <version>${caffeine.version}</version>
+            </dependency>
+
 
             <!--  MyBatis & MyBatis Plus  -->
             <dependency>

@@ -1,0 +1,46 @@
+server:
+  port: 8100
+
+spring:
+  application:
+    name: cloud-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: archlinux:8848
+        username: nacos
+        password: nacos
+        namespace: d590836a-8755-4d36-aa28-7bed557b4fcf
+    gateway:
+      discovery:
+        locator:
+          # 开启从注册中心动态创建路由的功能，利用微服务名进行路由
+          enabled: true
+          # 用小写的请求路径的服务名匹配服务。默认为false（大写）。（因为服务注册时服务名被转成大写）
+          lowerCaseServiceId: true
+      default-filters:
+        # 响应头去重
+        - DedupeResponseHeader=Access-Control-Allow-Origin, RETAIN_UNIQUE
+      # 跨域配置
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - http://localhost
+              - http://archlinux
+            allowedMethods:
+              - GET
+              - POST
+            allowedHeaders: "*"
+            allowCredentials: true
+
+      routes:
+        - id: user_test_port
+          uri: lb://cloud-user
+          predicates:
+            - Path=/user/test/port
+
+        - id: user_auth_validcode_register
+          uri: lb://cloud-user
+          predicates:
+            - Path=/auth/validcode/register/**
