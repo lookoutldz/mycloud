@@ -46,7 +46,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/auth/validcode/**",
-                                "/auth/resetPassword/**", "/auth/register")
+                                "/auth/resetPassword/**", "/auth/register", "/user/test/port")
                         .permitAll()
                         .anyRequest()
                         .authenticated()
@@ -68,16 +68,12 @@ public class SecurityConfiguration {
                 .exceptionHandling()
                 .authenticationEntryPoint(this::commence)
                 .and()
-                .csrf()
-                .disable()
-                .cors()
-                .configurationSource(this.corsConfigurationSource())
-                .and()
                 .build();
+        // CORS(跨域) 和 CSRF(跨站请求伪造) 统一在网关配置
     }
 
+    @Deprecated
     private CorsConfigurationSource corsConfigurationSource() {
-        // TODO 跨域的详细处理
         CorsConfiguration cors = new CorsConfiguration();
         cors.addAllowedOriginPattern("*");
         cors.addAllowedHeader("*");

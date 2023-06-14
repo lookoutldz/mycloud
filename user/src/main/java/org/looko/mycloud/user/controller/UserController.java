@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.looko.mycloud.commonstarter.entity.ResponseEntity;
 import org.looko.mycloud.user.domain.User;
 import org.looko.mycloud.user.service.UserService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,5 +32,12 @@ public class UserController {
         List<User> users =  userService.listAll(page);
         Map<String, Object> res = Map.of("result", users, "pagination", page);
         return ResponseEntity.success(res);
+    }
+
+    @Value("${server.port}")
+    private String port;
+    @GetMapping("/test/port")
+    public ResponseEntity<String> getServerPort() {
+        return ResponseEntity.success(port);
     }
 }
