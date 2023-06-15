@@ -1,8 +1,18 @@
 server:
   port: 8090
+
 spring:
   application:
     name: cloud-email
+
+  # SpringCloud
+  cloud:
+    nacos:
+      discovery:
+        server-addr: archlinux:8848
+        username: nacos
+        password: nacos
+
   # kafka 集群
   kafka:
     bootstrap-servers: archlinux:9192
@@ -21,6 +31,7 @@ spring:
         #        spring.json.trusted.packages: "org.springframework.mail"
         spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
         spring.deserializer.value.delegate.class: org.looko.mycloud.user.serialization.KafkaSimpleMailMessageDeserializer
+
   mail:
     default-encoding: UTF-8
     protocol: smtps
@@ -31,9 +42,3 @@ spring:
       mail:
         smtp:
           from: MyCloud-NoReply <abc@qq.com>
-  cloud:
-    nacos:
-      discovery:
-        server-addr: archlinux:8848
-        username: nacos
-        password: nacos
