@@ -34,10 +34,16 @@ public class UserController {
         return ResponseEntity.success(res);
     }
 
+    // for test
     @Value("${server.port}")
     private String port;
     @GetMapping("/test/port")
     public ResponseEntity<String> getServerPort() {
         return ResponseEntity.success(port);
     }
+    @GetMapping("/test/port2")
+    public ResponseEntity<String> getServerPort2() {
+        return ResponseEntity.success(port);
+    }
+
 }
