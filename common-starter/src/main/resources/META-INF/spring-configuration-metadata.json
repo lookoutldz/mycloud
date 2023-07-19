@@ -1,7 +1,18 @@
 {
   "properties": [{
-    "name": "mycloud.common.controller.globalResponseWrapping",
+    "name": "mycloud.globalControllerResponseWrapping",
     "type": "java.lang.Boolean",
-    "description": "全局 Controller 启用统一返回实体 ResponseEntity<T>"
+    "description": "全局 Controller 启用统一返回实体 ResponseEntity<T> 和 返回值处理 AOP",
+    "defaultValue": "false"
+  }],
+  "hints": [{
+    "name": "mycloud.globalControllerResponseWrapping",
+    "values": [{
+      "value": "true",
+      "description": "启用全局 Controller 启用统一返回实体 ResponseEntity<T> 和 返回值处理 AOP"
+    }, {
+      "value": "false",
+      "description": "不启用全局 Controller 启用统一返回实体 ResponseEntity<T> 和 返回值处理 AOP"
+    }]
   }]
 }
