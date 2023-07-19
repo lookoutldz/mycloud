@@ -73,7 +73,6 @@ spring:
             - Path=/auth/resetPassword
 
 mycloud:
-  global-controller-response-wrapping: true
   gateway:
     jwt:
       secret: '!7Rt-fjyBkQnamW78ekRpC'
