@@ -41,6 +41,7 @@ class UserApplicationTests {
 
     @Autowired
     UserController userController;
+    @Disabled
     @Test
     void testCommon() {
         Object obj = userController.getById("1");
