@@ -7,7 +7,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.looko.mycloud.commonstarter.entity.ResponseEntity;
 
-import static org.looko.mycloud.commonstarter.enumeration.ResponseStatusEnum.BUSINESS_ERROR;
+import static org.looko.mycloud.commonstarter.enumeration.BasicResponseStatus.SERVER_ERROR;
 
 @Slf4j
 @Aspect
@@ -23,8 +23,8 @@ public class GlobalControllerAdvice {
         try {
             return (ResponseEntity<?>) joinPoint.proceed();
         } catch (Throwable e) {
-            log.error("发生了错误：", e);
-            return ResponseEntity.failure(BUSINESS_ERROR, e.getMessage());
+            log.error("全局 Controller 异常拦截：", e);
+            return ResponseEntity.failure(SERVER_ERROR, e.getMessage());
         }
     }
 }

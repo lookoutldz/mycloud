@@ -1,66 +1,56 @@
 package org.looko.mycloud.commonstarter.entity;
 
 
-import org.looko.mycloud.commonstarter.enumeration.ResponseStatusEnum;
+import org.looko.mycloud.commonstarter.enumeration.ResponseStatus;
+import org.looko.mycloud.commonstarter.util.JsonUtil;
 
 import java.io.Serializable;
-import java.util.Map;
+
+import static org.looko.mycloud.commonstarter.enumeration.BasicResponseStatus.SERVER_ERROR;
+import static org.looko.mycloud.commonstarter.enumeration.BasicResponseStatus.SUCCESS;
 
 public class ResponseEntity<T> implements Serializable {
 
-    private static final String RESULT_KEY = "data";
+    private final ResponseStatus status;
 
-    private static final String EMPTY_STRING = "";
+    private final T result;
 
-    private final ResponseStatusEnum responseStatusEnum;
-
-    private final Map<String, Object> resultMap;
-
-    private ResponseEntity(ResponseStatusEnum responseStatusEnum, Map<String, Object> resultMap) {
-        this.responseStatusEnum = responseStatusEnum;
-        this.resultMap = resultMap;
+    private ResponseEntity(ResponseStatus status, T result) {
+        this.status = status;
+        this.result = result;
     }
 
     public int getStatusCode() {
-        return responseStatusEnum.getCode();
+        return status.getCode();
     }
-
     public String getStatusMessage() {
-        return responseStatusEnum.getMessage();
+        return status.getMessage();
+    }
+    public T getResult() {
+        return result;
     }
 
-    public Map<String, Object> getResultMap() {
-        return resultMap;
-    }
-
-    public static <T> ResponseEntity<T> success(T data) {
-        return new ResponseEntity<>(ResponseStatusEnum.SUCCESS, Map.of(RESULT_KEY, data == null ? EMPTY_STRING : data));
+    public static <T> ResponseEntity<T> success(T result) {
+        return new ResponseEntity<>(SUCCESS, result);
     }
 
     public static <T> ResponseEntity<T> failure() {
-        return new ResponseEntity<>(ResponseStatusEnum.BUSINESS_ERROR, Map.of());
+        return new ResponseEntity<>(SERVER_ERROR, null);
     }
 
-    public static <T> ResponseEntity<T> failure(ResponseStatusEnum responseStatusEnum) {
-        return new ResponseEntity<>(responseStatusEnum, Map.of());
+    public static <T> ResponseEntity<T> failure(T result) {
+        return new ResponseEntity<>(SERVER_ERROR, result);
     }
 
-    public static <T> ResponseEntity<T> failure(ResponseStatusEnum responseStatusEnum, T data) {
-        return new ResponseEntity<>(responseStatusEnum, Map.of(RESULT_KEY, data == null ? EMPTY_STRING : data));
+    public static <T> ResponseEntity<T> failure(ResponseStatus status) {
+        return new ResponseEntity<>(status, null);
     }
 
-    @Override
-    public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder
-                .append("ResponseEntity{statusCode=").append(responseStatusEnum.getCode())
-                .append(",statusMessage=").append(responseStatusEnum.getMessage())
-                .append(",resultMap={");
-        for (Map.Entry<String, Object> entry : resultMap.entrySet()) {
-            stringBuilder.append(entry.getKey()).append("=").append(entry.getValue().toString()).append(",");
-        }
-        stringBuilder.deleteCharAt(stringBuilder.lastIndexOf(","));
-        stringBuilder.append("}}");
-        return  stringBuilder.toString();
+    public static <T> ResponseEntity<T> failure(ResponseStatus status, T result) {
+        return new ResponseEntity<>(status, result);
+    }
+
+    public String toJson() {
+        return JsonUtil.toJson(this);
     }
 }
