@@ -25,7 +25,12 @@ class UserApplicationTests {
     @Test
     void contextLoads() {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        System.out.println(encoder.encode("123456"));
+        String p1 = encoder.encode("123456");
+        String p2 = encoder.encode("123456");
+        System.out.println(p1);
+        System.out.println(p2);
+        System.out.println(encoder.matches("123456", p1));
+        System.out.println(new BCryptPasswordEncoder().matches("123456", p2));
     }
 
     @Disabled

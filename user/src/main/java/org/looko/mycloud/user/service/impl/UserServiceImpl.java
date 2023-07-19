@@ -22,7 +22,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     public List<User> listAll(Page<User> page) {
         return baseMapper.listAll(page);
     }
-
 }
 
 

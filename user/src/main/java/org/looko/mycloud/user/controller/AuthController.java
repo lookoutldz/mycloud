@@ -4,8 +4,8 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import lombok.extern.slf4j.Slf4j;
 import org.looko.mycloud.commonstarter.entity.ResponseEntity;
-import org.looko.mycloud.user.service.AuthorizationService;
 import org.looko.mycloud.user.constant.Messages;
+import org.looko.mycloud.user.service.AuthorizationService;
 import org.looko.mycloud.user.vo.RegistrationFormVO;
 import org.looko.mycloud.user.vo.ResetPasswordFormVO;
 import org.springframework.validation.annotation.Validated;
@@ -21,6 +21,13 @@ public class AuthController {
     private final AuthorizationService authorizationService;
     public AuthController(AuthorizationService authorizationService) {
         this.authorizationService = authorizationService;
+    }
+
+
+    @GetMapping("/logout")
+    public ResponseEntity<String> logout(@RequestHeader String authorization) {
+        System.out.println("User Logout, token: " + authorization);
+        return ResponseEntity.success("登出成功");
     }
 
     /**
@@ -64,7 +71,7 @@ public class AuthController {
 
     /**
      * 重置密码
-     * @param form 注册表单
+     * @param form 重置密码表单
      */
     @PostMapping("/resetPassword/")
     public ResponseEntity<String> resetPassword(@RequestBody @Valid ResetPasswordFormVO form) {
