@@ -22,52 +22,58 @@ spring:
         # 响应头去重
         - DedupeResponseHeader=Access-Control-Allow-Origin, RETAIN_UNIQUE
       # 跨域配置
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowedOrigins:
-              - http://localhost:5173
-              - http://archlinux:5173
-            allowedMethods:
-              - GET
-              - POST
-            allowedHeaders: "*"
-            allowCredentials: true
+#      globalcors:
+#        cors-configurations:
+#          '[/**]':
+#            allowedOrigins:
+#              - http://localhost:5173
+#              - http://archlinux:5173
+#            allowedMethods:
+#              - GET
+#              - POST
+#            allowedHeaders: "*"
+#            allowCredentials: true
 
       routes:
         - id: user_test_port
           uri: lb://cloud-user
           predicates:
             - Path=/user/test/port
+
         - id: user_get_by_id
           uri: lb://cloud-user
           predicates:
             - Path=/user/id/**
+
         - id: user_get_all
           uri: lb://cloud-user
           predicates:
             - Path=/user/all
+
         - id: auth_validcode_register
           uri: lb://cloud-user
           predicates:
             - Path=/auth/validcode/register/**
+
         - id: auth_validcode_reset_password
           uri: lb://cloud-user
           predicates:
             - Path=/auth/validcode/resetPassword/**
+
         - id: auth_register
           uri: lb://cloud-user
           predicates:
             - Path=/auth/register
+
         - id: auth_reset_password
           uri: lb://cloud-user
           predicates:
             - Path=/auth/resetPassword
-        - id: auth_login
-          uri: lb://cloud-user
-          predicates:
-            - Path=/auth/login
-        - id: auth_logout
-          uri: lb://cloud-user
-          predicates:
-            - Path=/auth/logout
+
+mycloud:
+  global-controller-response-wrapping: true
+  gateway:
+    jwt:
+      secret: '!7Rt-fjyBkQnamW78ekRpC'
+      # 默认有效期 8 小时 1000L * 60 * 60 * 8 = 28800000
+      expire: 28800000
