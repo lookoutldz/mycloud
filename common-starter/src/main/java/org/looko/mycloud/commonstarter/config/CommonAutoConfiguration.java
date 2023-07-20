@@ -19,8 +19,8 @@ public class CommonAutoConfiguration {
         return new CommonPropertyCheck(props);
     }
 
-    @ConditionalOnProperty(prefix = "mycloud.common.controller", name = "globalResponseWrapping", havingValue = "true")
     @Bean
+    @ConditionalOnProperty(prefix = "mycloud", name = "globalControllerResponseWrapping", havingValue = "true")
     public GlobalControllerAdvice globalControllerAdvice() {
         return new GlobalControllerAdvice();
     }

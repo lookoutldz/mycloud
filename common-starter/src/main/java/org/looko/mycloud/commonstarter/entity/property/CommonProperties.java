@@ -4,7 +4,7 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Data
-@ConfigurationProperties(prefix = "mycloud.common")
+@ConfigurationProperties(prefix = "mycloud")
 public class CommonProperties {
-    private ControllerSubProperty controller;
+    private Boolean globalControllerResponseWrapping;
 }

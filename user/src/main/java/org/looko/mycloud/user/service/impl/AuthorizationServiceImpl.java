@@ -13,8 +13,6 @@ import org.looko.mycloud.user.vo.RegistrationFormVO;
 import org.looko.mycloud.user.vo.ResetPasswordFormVO;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,33 +39,15 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         this.redissonClient = redissonClient;
     }
 
-    /**
-     * login
-     * 于 SecurityConfiguration 处设置此类 (? implements UserDetailsService) 作为登录校验处理类
-     * 此方法将于登录时被调用
-     * @param usernameOrEmail the username identifying the user whose data is required.
-     * @return UserDetails
-     * @throws UsernameNotFoundException 用户名不存在异常
-     */
     @Override
-    public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
-        if (usernameOrEmail == null) {
-            throw new UsernameNotFoundException(Messages.wrongUsernameOrPassword);
-        }
+    public User getByUsernameOrEmail(String usernameOrEmail) {
         User user;
         if (PatternUtils.emailPattern.matcher(usernameOrEmail).matches()) {
             user = userMapper.getByEmail(usernameOrEmail);
         } else {
             user = userMapper.getByUsername(usernameOrEmail);
         }
-        if (user == null) {
-            throw new UsernameNotFoundException(Messages.wrongUsernameOrPassword);
-        }
-        return org.springframework.security.core.userdetails.User
-                .withUsername(user.getUsername())
-                .password(user.getPassword())
-                .roles("admin")
-                .build();
+        return user;
     }
 
     /**

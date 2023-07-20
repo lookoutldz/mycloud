@@ -18,24 +18,34 @@ import java.util.concurrent.TimeUnit;
 @SpringBootTest
 class UserApplicationTests {
 
-    @Autowired
-    EmailUtils emailUtils;
-
-    @Disabled
     @Test
     void contextLoads() {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        System.out.println(encoder.encode("123456"));
     }
 
     @Disabled
     @Test
-    void testEmail() throws Exception {
-        emailUtils.publishValidcodeEmail(BusinessTypeEnum.VALIDCODE_LOGIN, "your-addr@outlook.com", "123456");
+    void testEncrypt() {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String p1 = encoder.encode("123456");
+        String p2 = encoder.encode("123456");
+        System.out.println(p1);
+        System.out.println(p2);
+        System.out.println(encoder.matches("123456", p1));
+        System.out.println(new BCryptPasswordEncoder().matches("123456", p2));
+    }
+
+    @Autowired
+    EmailUtils emailUtils;
+    @Disabled
+    @Test
+    void testEmail() {
+        emailUtils.publishValidcodeEmail(
+                BusinessTypeEnum.VALIDCODE_LOGIN, "your-addr@outlook.com", "123456");
     }
 
     @Autowired
     UserController userController;
+    @Disabled
     @Test
     void testCommon() {
         Object obj = userController.getById("1");
@@ -44,6 +54,7 @@ class UserApplicationTests {
 
     @Autowired
     StringRedisTemplate stringRedisTemplate;
+    @Disabled
     @Test
     void redisConnectionTest() {
         String k = "theKey";
@@ -59,6 +70,7 @@ class UserApplicationTests {
 
     @Autowired
     RedissonClient redissonClient;
+    @Disabled
     @Test
     void redissonTest() throws InterruptedException {
         RLock lock = redissonClient.getLock("myLock");

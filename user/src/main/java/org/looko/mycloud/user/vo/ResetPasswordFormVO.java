@@ -7,6 +7,5 @@ import jakarta.validation.constraints.Pattern;
 public record ResetPasswordFormVO(
         @NotBlank String password,
         @Pattern(regexp = "[0-9]{6}", message = "验证码格式错误") String validcode,
-        @Email String email
-) {
-}
+        @Email(message = "邮箱格式有误") String email
+) {}

@@ -1,10 +1,13 @@
 package org.looko.mycloud.user.service;
 
+import org.looko.mycloud.user.domain.User;
 import org.looko.mycloud.user.vo.RegistrationFormVO;
 import org.looko.mycloud.user.vo.ResetPasswordFormVO;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface AuthorizationService extends UserDetailsService {
+public interface AuthorizationService {
+
+
+    User getByUsernameOrEmail(String usernameOrEmail);
 
     /**
      * 注册
