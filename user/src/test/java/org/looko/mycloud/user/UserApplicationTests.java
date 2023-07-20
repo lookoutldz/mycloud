@@ -40,7 +40,7 @@ class UserApplicationTests {
     EmailUtils emailUtils;
     @Disabled
     @Test
-    void testEmail() throws Exception {
+    void testEmail() {
         emailUtils.publishValidcodeEmail(BusinessTypeEnum.VALIDCODE_LOGIN, "your-addr@outlook.com", "123456");
     }
 
