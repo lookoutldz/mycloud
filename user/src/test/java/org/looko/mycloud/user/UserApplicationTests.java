@@ -19,7 +19,6 @@ import java.util.concurrent.TimeUnit;
 class UserApplicationTests {
 
 
-    @Disabled
     @Test
     void contextLoads() {
     }
