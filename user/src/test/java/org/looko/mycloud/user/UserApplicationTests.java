@@ -41,7 +41,8 @@ class UserApplicationTests {
     @Disabled
     @Test
     void testEmail() {
-        emailUtils.publishValidcodeEmail(BusinessTypeEnum.VALIDCODE_LOGIN, "your-addr@outlook.com", "123456");
+        emailUtils.publishValidcodeEmail(
+                BusinessTypeEnum.VALIDCODE_LOGIN, "your-addr@outlook.com", "123456");
     }
 
     @Autowired
