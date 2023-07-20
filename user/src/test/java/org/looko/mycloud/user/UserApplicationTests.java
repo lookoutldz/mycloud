@@ -24,6 +24,10 @@ class UserApplicationTests {
     @Disabled
     @Test
     void contextLoads() {
+    }
+
+    @Test
+    void testEncrypt() {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String p1 = encoder.encode("123456");
         String p2 = encoder.encode("123456");
