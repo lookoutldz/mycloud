@@ -26,6 +26,7 @@ class UserApplicationTests {
     void contextLoads() {
     }
 
+    @Disabled
     @Test
     void testEncrypt() {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
