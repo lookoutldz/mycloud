@@ -18,7 +18,6 @@ import java.util.concurrent.TimeUnit;
 @SpringBootTest
 class UserApplicationTests {
 
-
     @Test
     void contextLoads() {
     }
