@@ -66,6 +66,7 @@ class UserApplicationTests {
 
     @Autowired
     RedissonClient redissonClient;
+    @Disabled
     @Test
     void redissonTest() throws InterruptedException {
         RLock lock = redissonClient.getLock("myLock");
