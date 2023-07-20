@@ -18,8 +18,6 @@ import java.util.concurrent.TimeUnit;
 @SpringBootTest
 class UserApplicationTests {
 
-    @Autowired
-    EmailUtils emailUtils;
 
     @Disabled
     @Test
@@ -38,6 +36,8 @@ class UserApplicationTests {
         System.out.println(new BCryptPasswordEncoder().matches("123456", p2));
     }
 
+    @Autowired
+    EmailUtils emailUtils;
     @Disabled
     @Test
     void testEmail() throws Exception {
