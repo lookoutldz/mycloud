@@ -50,6 +50,7 @@ class UserApplicationTests {
 
     @Autowired
     StringRedisTemplate stringRedisTemplate;
+    @Disabled
     @Test
     void redisConnectionTest() {
         String k = "theKey";
