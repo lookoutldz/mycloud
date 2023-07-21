@@ -44,20 +44,10 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>io.micrometer</groupId>
-					<artifactId>micrometer-core</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>io.micrometer</groupId>
-					<artifactId>micrometer-commons</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>io.micrometer</groupId>
-					<artifactId>micrometer-observation</artifactId>
-				</exclusion>
-			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>io.github.openfeign</groupId>
+			<artifactId>feign-micrometer</artifactId>
 		</dependency>
 
 		<!--Spring Security (基于 WebFlux)-->
