@@ -42,7 +42,7 @@
         <yaml.version>2.0</yaml.version>
         <jakarta.mail.version>2.0.1</jakarta.mail.version>
         <!--    自有模块版本    -->
-        <mycloud-common-starter.version>0.0.26-SNAPSHOT</mycloud-common-starter.version>
+        <mycloud-common-starter.version>0.0.27-SNAPSHOT</mycloud-common-starter.version>
         <mycloud-email-starter.version>0.0.2-SNAPSHOT</mycloud-email-starter.version>
     </properties>
 
