@@ -9,9 +9,7 @@ spring:
         server-addr: archlinux:8848
         username: nacos
         password: nacos
-        namespace: d590836a-8755-4d36-aa28-7bed557b4fcf
-    openfeign:
-      lazy-attributes-resolution: true
+
     gateway:
       discovery:
         locator:

@@ -2,8 +2,7 @@ package org.looko.mycloud.gateway.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.looko.mycloud.commonstarter.dto.UserAuthDTO;
-import org.looko.mycloud.gateway.feignclient.UserAuthFeignClient;
-import org.springframework.context.annotation.Lazy;
+import org.looko.mycloud.gateway.feignclient.UserAuthRestClient;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
@@ -21,17 +20,16 @@ import java.util.concurrent.CompletableFuture;
 @Component
 public class AuthorizationService implements ReactiveUserDetailsService {
 
-    private final UserAuthFeignClient feignClient;
+    private final UserAuthRestClient userAuthRestClient;
 
-    @Lazy
-    public AuthorizationService(UserAuthFeignClient feignClient) {
-        this.feignClient = feignClient;
+    public AuthorizationService(UserAuthRestClient userAuthRestClient) {
+        this.userAuthRestClient = userAuthRestClient;
     }
 
     @Override
     public Mono<UserDetails> findByUsername(String usernameOrEmail) {
         CompletableFuture<UserAuthDTO> future =
-                CompletableFuture.supplyAsync(() -> feignClient.getUserByUsernameOrEmail(usernameOrEmail));
+                CompletableFuture.supplyAsync(() -> userAuthRestClient.getUserByUsernameOrEmail(usernameOrEmail));
 
         return Mono.fromFuture(future)
                 .map(this::toUserDetails)
