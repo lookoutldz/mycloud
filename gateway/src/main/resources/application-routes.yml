@@ -1,0 +1,43 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: user_test_port
+          uri: lb://cloud-user
+          predicates:
+            - Path=/user/test/port
+
+        - id: user_test_port2
+          uri: lb://cloud-user
+          predicates:
+            - Path=/user/test/port2
+
+        - id: user_get_by_id
+          uri: lb://cloud-user
+          predicates:
+            - Path=/user/id/**
+
+        - id: user_get_all
+          uri: lb://cloud-user
+          predicates:
+            - Path=/user/all
+
+        - id: auth_validcode_register
+          uri: lb://cloud-user
+          predicates:
+            - Path=/auth/validcode/register/**
+
+        - id: auth_validcode_reset_password
+          uri: lb://cloud-user
+          predicates:
+            - Path=/auth/validcode/resetPassword/**
+
+        - id: auth_register
+          uri: lb://cloud-user
+          predicates:
+            - Path=/auth/register
+
+        - id: auth_reset_password
+          uri: lb://cloud-user
+          predicates:
+            - Path=/auth/resetPassword
