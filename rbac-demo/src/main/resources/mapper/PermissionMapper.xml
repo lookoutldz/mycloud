@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.looko.mycloud.rbacdemo.mapper.PermissionMapper">
+
+    <resultMap id="BaseResultMap" type="org.looko.mycloud.rbacdemo.domain.Permission">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="action" column="action" jdbcType="INTEGER"/>
+            <result property="target" column="target" jdbcType="VARCHAR"/>
+            <result property="subject" column="subject" jdbcType="VARCHAR"/>
+            <result property="subjectId" column="subject_id" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,action,target,
+        subject,subject_id
+    </sql>
+</mapper>

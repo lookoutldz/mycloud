@@ -29,7 +29,7 @@ public class JwtAuthenticationFilter implements WebFilter {
     private static final ServerWebExchangeMatcher exchangeMatcher;
     static {
         Set<String> whiteRegexes = Set.of("/resources/**",  "/auth/validcode/**", "/auth/resetPassword/**",
-                "/login", "/auth/register", "/user/test/port");
+                "/login", "/auth/register", "/user/test/port", "/rbac/**");
         List<ServerWebExchangeMatcher> whitelistMatcher = new ArrayList<>(whiteRegexes.size());
         for (String regex : whiteRegexes) {
             whitelistMatcher.add(new PathPatternParserServerWebExchangeMatcher(regex));
