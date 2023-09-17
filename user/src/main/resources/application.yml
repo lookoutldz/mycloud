@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: cloud-user
+  cloud:
+    nacos:
+      config:
+        server-addr: archlinux:8848
+        username: nacos
+        password: nacos
+        # namespace : mycould
+        namespace: 2dc1a7fb-bcef-4243-bec6-f02e508bf1f2
+        group: personal
+        refresh-enabled: true
+  profiles:
+    active: dev
+  # 推荐使用如下新的配置方式, 无需引入 spring 的 bootstrap 依赖,
+  # 但是可能需要手动维护 active profile 与配置文件的关系
+  # - 如果没有 optional 的话会 fast fail 导致启动失败
+  # - 末尾可按需添加: ?refreshEnable=false
+  config:
+    import:
+      - optional:nacos:cloud-user-dev.yml
