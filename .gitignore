@@ -1,14 +1,11 @@
-skywalking-agent
+HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
 ### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
+.idea
 *.iws
 *.iml
 *.ipr
@@ -35,21 +32,19 @@ build/
 ### VS Code ###
 .vscode/
 
-### Mac OS ###
+############ 以下是自定义部分 #############
+
+# For Mac OS
 .DS_Store
 
-### 配置文件 ###
-*.properties
-*.properties.backup
-!application-dev.properties
-!application-public.properties
+# For skywalking
+skywalking-agent
 
-*.yml
-*.yml.backup
-!application-dev.yml
-!application-public.yml
+# For config file
+.mvn
+**/oldprofiles/
+**/test.properties
+**/test.yml
 
-demo
-.idea
-*.backup
-HELP.md
+# For local log file
+**/logs
