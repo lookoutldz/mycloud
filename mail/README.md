@@ -14,8 +14,8 @@ JVM 参数
 -Xmx256m
 -XX:+HeapDumpBeforeFullGC
 -XX:+HeapDumpOnOutOfMemoryError
--XX:HeapDumpPath=/Users/yourname/Workspaces/IdeaProjects/mycloud/user/resources/heapdump
--javaagent:/Users/yourname/Workspaces/IdeaProjects/mycloud/skywalking-agent/skywalking-agent.jar
+-XX:HeapDumpPath=/Users/$USER/Workspaces/IdeaProjects/mycloud/user/resources/heapdump
+-javaagent:/Users/$USER/Workspaces/IdeaProjects/mycloud/skywalking-agent/skywalking-agent.jar
 -Dskywalking.agent.service_name=cloud-mail-01
 -Dskywalking.logging.file_name=cloud-mail-01-api.log
 ```
