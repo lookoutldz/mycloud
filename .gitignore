@@ -45,6 +45,8 @@ skywalking-agent
 **/oldprofiles/
 **/test.properties
 **/test.yml
+**/application.properties
+**/application.yml
 
 # For local log file
 **/logs
